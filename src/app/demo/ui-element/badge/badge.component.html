@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Cloudlabs Slider Details" [options]="false">
+      <h5>Service Expertize Slider Details</h5>
+      <hr />
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <h5>Business Acceleration Advisory</h5>
+          <hr>
+          <form [formGroup]="form1" (ngSubmit)="onSubmitSlide1()">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" formControlName="title" placeholder="Title" />
+              <div *ngIf="title1?.invalid && (title1?.dirty || title1?.touched)" class="text-danger">
+                <div *ngIf="title1?.errors?.['required']">Title is required.</div>
+                <div *ngIf="title1?.errors?.['minlength']">Title must be at least 3 characters long.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Title 2</label>
+              <input type="text" class="form-control" formControlName="title2" placeholder="Title 2" />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Description</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="description"
+                rows="3"></textarea>
+              <div *ngIf="description1?.invalid && (description1?.dirty || description1?.touched)" class="text-danger">
+                <div *ngIf="description1?.errors?.['required']">Description is required.</div>
+                <div *ngIf="description1?.errors?.['minlength']">Description must be at least 10 characters long.</div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="form1.invalid">Submit</button>
+          </form>
+        </div>
+        <div class="col-md-12 mb-5">
+          <h5>Managed Services</h5>
+          <hr>
+          <form [formGroup]="form2" (ngSubmit)="onSubmitSlide2()">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" formControlName="title" placeholder="Title" />
+              <div *ngIf="title2?.invalid && (title2?.dirty || title2?.touched)" class="text-danger">
+                <div *ngIf="title2?.errors?.['required']">Title is required.</div>
+                <div *ngIf="title2?.errors?.['minlength']">Title must be at least 3 characters long.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Title 2</label>
+              <input type="text" class="form-control" formControlName="title2" placeholder="Title 2" />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Description</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="description"
+                rows="3"></textarea>
+              <div *ngIf="description2?.invalid && (description2?.dirty || description2?.touched)" class="text-danger">
+                <div *ngIf="description2?.errors?.['required']">Description is required.</div>
+                <div *ngIf="description2?.errors?.['minlength']">Description must be at least 10 characters long.</div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="form2.invalid">Submit</button>
+          </form>
+        </div>
+        <div class="col-md-12 mb-5">
+          <h5>Transformative Application Development</h5>
+          <hr>
+          <form [formGroup]="form3" (ngSubmit)="onSubmitSlide3()">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" formControlName="title" placeholder="Title" />
+              <div *ngIf="title3?.invalid && (title3?.dirty || title3?.touched)" class="text-danger">
+                <div *ngIf="title3?.errors?.['required']">Title is required.</div>
+                <div *ngIf="title3?.errors?.['minlength']">Title must be at least 3 characters long.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Title 2</label>
+              <input type="text" class="form-control" formControlName="title2" placeholder="Title 2" />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Description</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="description"
+                rows="3"></textarea>
+              <div *ngIf="description3?.invalid && (description3?.dirty || description3?.touched)" class="text-danger">
+                <div *ngIf="description3?.errors?.['required']">Description is required.</div>
+                <div *ngIf="description3?.errors?.['minlength']">Description must be at least 10 characters long.</div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="form3.invalid">Submit</button>
+          </form>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="container">
+  <form [formGroup]="mainForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="title" class="form-label w-50">Title</label>
+      <input id="title" class="form-control w-50" formControlName="title" />
+      <div *ngIf="(mainForm.get('title')?.invalid) && mainForm.get('title')?.touched" class="text-danger">
+        Title is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label w-50">Image</label>
+      <input id="image" type="file" class="form-control w-25" formControlName="image"
+        (change)="onFileSelected($event)" />
+      <div *ngIf="(mainForm.get('image')?.invalid) && mainForm.get('image')?.touched" class="text-danger">
+        Image is required.
+      </div>
+    </div>
+
+    <div *ngIf="uploadedImageUrl" class="mb-3">
+      <label>Uploaded Image:</label><br>
+      <img [src]="uploadedImageUrl" alt="Uploaded Image" class="" style="width: 150px; height: auto;" />
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label w-50">Description</label>
+      <textarea id="description" class="form-control w-50" formControlName="description"></textarea>
+    </div>
+
+    <div formArrayName="children" *ngFor="let child of children.controls; let i=index">
+      <div [formGroupName]="i" class="mb-3 border p-3">
+        <div class="" style="padding-left: 120px;">
+          <app-collapse [formGroup]="asFormGroup(child)"></app-collapse>
+          <button type="button" class="btn btn-danger" style="position: absolute; margin-left: 150px; margin-top: -35px;" (click)="removeChild(i)">Delete Child</button>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex">
+      <button type="button" class="btn btn-primary me-5" (click)="addChild()">Add Child</button>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </form>
+</div>
