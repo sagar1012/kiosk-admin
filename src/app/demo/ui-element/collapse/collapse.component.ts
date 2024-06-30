@@ -20,8 +20,8 @@ export default class CollapseComponent {
   isSubmitted: boolean = false;
 
   constructor(private fb: FormBuilder, private http: CommonHttpService) {
-    
-   }
+
+  }
 
   get children(): FormArray {
     return this.formGroup.get('children') as FormArray;
@@ -32,16 +32,18 @@ export default class CollapseComponent {
       const file = event.target.files[0];
       const formData = new FormData();
       formData.append('image', file);
-      // this.http.post(this.apiUrl + 'upload', formData).subscribe(
-      //   (response) => {
-      //     console.log('File uploaded successfully', response);
-      //     this.uploadedImageUrl = 'https://cloud-api.up.railway.app' + response.filePath;
-      //     this.formGroup.patchValue({ image: response.filePath });
-      //   },
-      //   (error) => {
-      //     console.error('Error uploading file', error);
-      //   }
-      // );
+      this.formGroup.patchValue({ image: 'test.png' });
+      this.http.post(this.apiUrl + 'upload', formData).subscribe(
+        (response) => {
+          console.log('File uploaded successfully', response);
+          this.uploadedImageUrl = 'https://cloud-api.up.railway.app' + response.filePath;
+          this.formGroup.patchValue({ image: response.filePath });
+          this.formGroup.get('image')?.setValue(response.filePath);
+        },
+        (error) => {
+          console.error('Error uploading file', error);
+        }
+      );
     }
   }
 
@@ -60,7 +62,7 @@ export default class CollapseComponent {
   createChildForm(): FormGroup {
     return this.fb.group({
       title: ['', Validators.required],
-      image: ['', Validators.required],
+      image: [''],
       description: [''],
       children: this.fb.array([])
     });

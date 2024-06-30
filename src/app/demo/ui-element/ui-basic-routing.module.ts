@@ -6,29 +6,33 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'services',
+        path: 'home',
         loadComponent: () => import('./badge/badge.component')
       },
       {
-        path: 'home',
+        path: 'menu-detail/:id',
         loadComponent: () => import('./button/button.component')
       },
       {
-        path: 'impact-insights',
-        loadComponent: () => import('./breadcrumb/breadcrumb.component')
-      },
-      {
-        path: 'career',
-        loadComponent: () => import('./collapse/collapse.component')
-      },
-      {
-        path: 'tabs-pills',
-        loadComponent: () => import('./tabs-pills/tabs-pills.component')
-      },
-      {
-        path: 'typography',
-        loadComponent: () => import('./typography/typography.component')
+        path: 'menu-detail',
+        loadComponent: () => import('./button/button.component')
       }
+      // {
+      //   path: 'impact-insights',
+      //   loadComponent: () => import('./breadcrumb/breadcrumb.component')
+      // },
+      // {
+      //   path: 'career',
+      //   loadComponent: () => import('./collapse/collapse.component')
+      // },
+      // {
+      //   path: 'tabs-pills',
+      //   loadComponent: () => import('./tabs-pills/tabs-pills.component')
+      // },
+      // {
+      //   path: 'typography',
+      //   loadComponent: () => import('./typography/typography.component')
+      // }
     ]
   }
 ];

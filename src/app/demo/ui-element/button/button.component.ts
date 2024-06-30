@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import CollapseComponent from '../collapse/collapse.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-button',
@@ -22,18 +23,47 @@ export default class ButtonComponent {
   apiUrl = environment.apiUrl;
   uploadedImageUrl!: string;
   isSubmitted: boolean = false;
+  id: string | null = null;
+  kioskData: any = [];
 
-  constructor(private fb: FormBuilder, private http: CommonHttpService) {
+  constructor(private fb: FormBuilder, private http: CommonHttpService, private route: ActivatedRoute, private router: Router) {
+    this.id = this.route.snapshot.paramMap.get('id');
+
     this.mainForm = this.fb.group({
       title: ['', Validators.required],
       image: ['', Validators.required],
       description: [''],
       children: this.fb.array([])
     });
+
+    if (this.id)
+      this.getKioskData(this.id);
   }
 
   get children(): FormArray {
     return this.mainForm.get('children') as FormArray;
+  }
+
+  getKioskData(id: any) {
+    this.http.get(this.apiUrl + `kioskmenu`).subscribe(res => {
+      if (res) {
+        this.kioskData = res.find((kiosk: any) => kiosk._id === this.id);
+        this.setFormValues(this.kioskData);
+      }
+    });
+  }
+
+  setFormValues(data: any) {
+    this.mainForm.patchValue({
+      title: data.title,
+      image: data.image,
+      description: data.description,
+    });
+    this.uploadedImageUrl = 'https://cloud-api.up.railway.app' + data.image;
+    const childrenArray = this.mainForm.get('children') as FormArray;
+    data.children.forEach((child: any) => {
+      childrenArray.push(this.createChildForm(child));
+    });
   }
 
   onFileSelected(event: any) {
@@ -66,13 +96,31 @@ export default class ButtonComponent {
     }
   }
 
-  createChildForm(): FormGroup {
+  createChildFormAdd(): FormGroup {
     return this.fb.group({
       title: ['', Validators.required],
-      image: ['', Validators.required],
+      image: [''],
       description: [''],
       children: this.fb.array([])
     });
+  }
+
+  createChildForm(childData?: any): FormGroup {
+    const childForm = this.fb.group({
+      title: [childData ? childData.title : '', Validators.required],
+      image: [childData ? childData.image : ''],
+      description: [childData ? childData.description : ''],
+      children: this.fb.array([]),
+    });
+
+    if (childData && childData.children) {
+      const childChildrenArray = childForm.get('children') as FormArray;
+      childData.children.forEach((grandChild: any) => {
+        childChildrenArray.push(this.createChildForm(grandChild));
+      });
+    }
+
+    return childForm;
   }
 
   asFormGroup(control: AbstractControl): FormGroup {
@@ -81,16 +129,27 @@ export default class ButtonComponent {
 
   onSubmit() {
     console.log(this.mainForm.value);
-    // this.isSubmitted = true;
-    // if (this.mainForm.valid) {
-    //   this.http.post(this.apiUrl + `kioskmenu`, this.mainForm.value).subscribe(res => {
-    //     if (res) {
-    //       alert('Content added successfully');
-    //     }
-    //   });
-    // } else {
-    //   console.log('Form not valid');
-    //   alert('Title and Image required')
-    // }
+    this.isSubmitted = true;
+    if (this.mainForm.valid) {
+      if (this.id) {
+        this.http.put(this.apiUrl + `kioskmenu/` + this.id, this.mainForm.value).subscribe(res => {
+          if (res) {
+            alert('Content update successfully');
+            this.router.navigate(['/component/home']);
+          }
+        });
+      } else if (!this.id) {
+        this.http.post(this.apiUrl + `kioskmenu`, this.mainForm.value).subscribe(res => {
+          if (res) {
+            alert('Content add successfully');
+            this.router.navigate(['/component/home']);
+          }
+        });
+      }
+
+    } else {
+      console.log('Form not valid');
+      alert('Title and Image required')
+    }
   }
 }
