@@ -16,11 +16,11 @@ const routes: Routes = [
       {
         path: 'menu-detail',
         loadComponent: () => import('./button/button.component')
-      }
-      // {
-      //   path: 'impact-insights',
-      //   loadComponent: () => import('./breadcrumb/breadcrumb.component')
-      // },
+      },
+      {
+        path: 'weather',
+        loadComponent: () => import('./breadcrumb/breadcrumb.component')
+      },
       // {
       //   path: 'career',
       //   loadComponent: () => import('./collapse/collapse.component')

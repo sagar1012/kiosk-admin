@@ -31,7 +31,14 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/component/home',
         icon: 'feather icon-home'
-      }
+      },
+      {
+        id: 'breadcrumb-pagination',
+        title: 'Weather',
+        type: 'item',
+        url: '/component/weather',
+        icon: 'feather icon-thermometer'
+      },
     ]
   },
   // {

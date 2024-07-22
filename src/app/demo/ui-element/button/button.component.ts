@@ -25,6 +25,7 @@ export default class ButtonComponent {
   isSubmitted: boolean = false;
   id: string | null = null;
   kioskData: any = [];
+  isCollapsed: boolean[] = [];
 
   constructor(private fb: FormBuilder, private http: CommonHttpService, private route: ActivatedRoute, private router: Router) {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -61,8 +62,9 @@ export default class ButtonComponent {
     });
     this.uploadedImageUrl = 'https://cloud-api.up.railway.app' + data.image;
     const childrenArray = this.mainForm.get('children') as FormArray;
-    data.children.forEach((child: any) => {
+    data.children.forEach((child: any, index: number) => {
       childrenArray.push(this.createChildForm(child));
+      this.isCollapsed[index] = false;
     });
   }
 
@@ -87,12 +89,14 @@ export default class ButtonComponent {
 
   addChild() {
     this.children.push(this.createChildForm());
+    this.isCollapsed.push(true);
   }
 
   removeChild(index: number): void {
     const confirmed = window.confirm('Are you sure you want to delete this?');
     if (confirmed) {
       this.children.removeAt(index);
+      this.isCollapsed.splice(index, 1);
     }
   }
 
@@ -125,6 +129,10 @@ export default class ButtonComponent {
 
   asFormGroup(control: AbstractControl): FormGroup {
     return control as FormGroup;
+  }
+
+  toggleCollapse(index: number) {
+    this.isCollapsed[index] = !this.isCollapsed[index];
   }
 
   onSubmit() {

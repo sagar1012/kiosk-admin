@@ -10,8 +10,7 @@
 
     <div class="mb-3">
       <label for="image" class="form-label w-50">Image</label>
-      <input id="image" type="file" class="form-control w-25"
-        (change)="onFileSelected($event)" />
+      <input id="image" type="file" class="form-control w-25" (change)="onFileSelected($event)" />
       <div *ngIf="(mainForm.get('image')?.invalid) && mainForm.get('image')?.touched" class="text-danger">
         Image is required.
       </div>
@@ -27,14 +26,25 @@
       <textarea id="description" class="form-control w-50" formControlName="description"></textarea>
     </div>
 
-    <div formArrayName="children" *ngFor="let child of children.controls; let i=index">
-      <div [formGroupName]="i" class="mb-3 border p-3">
-        <div class="" style="padding-left: 120px;">
-          <app-collapse [formGroup]="asFormGroup(child)"></app-collapse>
-          <button type="button" class="btn btn-danger" style="position: absolute; margin-left: 150px; margin-top: -35px;" (click)="removeChild(i)">Delete Child</button>
+    <div formArrayName="children" *ngFor="let child of children.controls; let i = index">
+      <div class="card mb-3">
+        <div class="card-header p-2 m-2"
+          style="cursor: pointer; border: 1px solid lightgray; border-radius: 5px; width: 100px;"
+          (click)="toggleCollapse(i)">
+          <div class="d-flex">
+            <h5 class="mb-0">Menu {{ i + 1 }}</h5>
+            <i class="fa" [ngClass]="{'fa-chevron-down': !isCollapsed[i], 'fa-chevron-up': isCollapsed[i]}"></i>
+          </div>
+        </div>
+        <div class="collapse" [ngClass]="{'show': isCollapsed[i]}" [attr.id]="'collapse'+i">
+          <div class="card-body" [formGroupName]="i">
+            <app-collapse [formGroup]="asFormGroup(child)"></app-collapse>
+            <button type="button" class="btn btn-danger mt-2" (click)="removeChild(i)">Delete Child</button>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="d-flex">
       <button type="button" class="btn btn-primary me-5" (click)="addChild()">Add Child</button>
       <button type="submit" class="btn btn-success">Submit</button>

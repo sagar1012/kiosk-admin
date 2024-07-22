@@ -1,36 +1,64 @@
 <div class="row">
   <div class="col-sm-12">
-    <app-card cardTitle="Cloudlabs Slider Details" [options]="false">
-      <h5>Impact & Insights Slider Details</h5>
+    <app-card cardTitle="Navsari Weather Details" [options]="false">
+      <h5>Weather Details</h5>
       <hr />
       <div class="row">
-        <div class="col-md-12 mb-5">
-          <!-- <h5>Impact & Insights</h5> -->
-          <!-- <hr> -->
-          <form [formGroup]="form1" (ngSubmit)="onSubmitSlide1()">
+        <div class="col-md-6 mb-5">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-group">
-              <label>Title Line 1</label>
-              <input type="text" class="form-control" formControlName="title" placeholder="Title Line 1" />
-              <div *ngIf="title1?.invalid && (title1?.dirty || title1?.touched)" class="text-danger">
-                <div *ngIf="title1?.errors?.['required']">Title lINE 1 is required.</div>
-                <div *ngIf="title1?.errors?.['minlength']">Title lINE 1 must be at least 3 characters long.</div>
-              </div>
+              <label for="latitude">Latitude</label>
+              <input id="latitude" class="form-control" formControlName="latitude" />
             </div>
-            <!-- <div class="form-group">
-              <label>Title 2</label>
-              <input type="text" class="form-control" formControlName="title2" placeholder="Title 2" />
-            </div> -->
             <div class="form-group">
-              <label for="exampleFormControlTextarea1">Title Line 2</label>
-              <input type="text" class="form-control" formControlName="description" placeholder="Title Line 2" />
-              <!-- <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="description"
-                rows="3"></textarea> -->
-              <div *ngIf="description1?.invalid && (description1?.dirty || description1?.touched)" class="text-danger">
-                <div *ngIf="description1?.errors?.['required']">Title lINE 2 is required.</div>
-                <div *ngIf="description1?.errors?.['minlength']">Title lINE 2 must be at least 10 characters long.</div>
-              </div>
+              <label for="longitude">Longitude</label>
+              <input id="longitude" class="form-control" formControlName="longitude" />
             </div>
-            <button type="submit" class="btn btn-primary" [disabled]="form1.invalid">Submit</button>
+            <div class="form-group">
+              <label for="altitude">Altitude</label>
+              <input id="altitude" class="form-control" formControlName="altitude" />
+            </div>
+            <div class="form-group">
+              <label for="maxTemp">Maximum Temperature (℃)</label>
+              <input id="maxTemp" class="form-control" formControlName="maxTemperature" />
+            </div>
+            <div class="form-group">
+              <label for="minTemp">Minimum Temperature (℃)</label>
+              <input id="minTemp" class="form-control" formControlName="minTemperature" />
+            </div>
+            <div class="form-group">
+              <label for="humidityMorning">Relative Humidity Morning (%)</label>
+              <input id="humidityMorning" class="form-control" formControlName="relHumidityMorning" />
+            </div>
+            <div class="form-group">
+              <label for="humidityAfternoon">Relative Humidity Afternoon (%)</label>
+              <input id="humidityAfternoon" class="form-control" formControlName="relHumidityAfternoon" />
+            </div>
+            <div class="form-group">
+              <label for="windSpeed">Wind Speed (km/hr.)</label>
+              <input id="windSpeed" class="form-control" formControlName="windSpeed" />
+            </div>
+            <div class="form-group">
+              <label for="sunshineHours">Bright Sunshine Hours (Previous Day)</label>
+              <input id="sunshineHours" class="form-control" formControlName="brightSunshineHours" />
+            </div>
+            <div class="form-group">
+              <label for="evaporation">Evaporation (mm/day)</label>
+              <input id="evaporation" class="form-control" formControlName="evaporation" />
+            </div>
+            <div class="form-group">
+              <label for="rainFall">Rain Fall (mm)</label>
+              <input id="rainFall" class="form-control" formControlName="rainFall" />
+            </div>
+            <div class="form-group">
+              <label for="rainyDays">Rainy Days</label>
+              <input id="rainyDays" class="form-control" formControlName="rainyDays" />
+            </div>
+            <div class="form-group">
+              <label for="cumulativeRain">Cumulative Rain (mm)</label>
+              <input id="cumulativeRain" class="form-control" formControlName="cumulativeRain" />
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
           </form>
         </div>
       </div>

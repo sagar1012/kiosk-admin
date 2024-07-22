@@ -13,54 +13,60 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./breadcrumb.component.scss']
 })
 export default class BreadcrumbComponent {
-  form1: FormGroup;
+  form: FormGroup;
   apiUrl = environment.apiUrl;
+  weatherData: any;
 
   constructor(private fb: FormBuilder, private http: CommonHttpService) {
-    this.form1 = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      // title2: [''],
-      description: ['', [Validators.required, Validators.minLength(10)]]
+    this.form = this.fb.group({
+      latitude: [''],
+      longitude: [''],
+      altitude: [''],
+      maxTemperature: [''],
+      minTemperature: [''],
+      relHumidityMorning: [''],
+      relHumidityAfternoon: [''],
+      windSpeed: [''],
+      brightSunshineHours: [''],
+      evaporation: [''],
+      rainFall: [''],
+      rainyDays: [''],
+      cumulativeRain: ['']
     });
-
   }
 
   ngOnInit() {
-    this.getSlide1();
+    this.getWeather();
   }
 
-  getSlide1() {
-    this.http.get(`${this.apiUrl}page/:impact-insights`).subscribe(res => {
+  getWeather() {
+    this.http.get(`${this.apiUrl}weather`).subscribe(res => {
       if (res) {
-        this.form1.patchValue({
-          title: res.title,
-          title2: res.title2,
-          description: res.description
+        this.weatherData = res;
+        this.form.patchValue({
+          latitude: this.weatherData.latitude,
+          longitude: this.weatherData.longitude,
+          altitude: this.weatherData.altitude,
+          maxTemperature: this.weatherData.maxTemperature,
+          minTemperature: this.weatherData.minTemperature,
+          relHumidityMorning: this.weatherData.relHumidityMorning,
+          relHumidityAfternoon: this.weatherData.relHumidityAfternoon,
+          windSpeed: this.weatherData.windSpeed,
+          brightSunshineHours: this.weatherData.brightSunshineHours,
+          evaporation: this.weatherData.evaporation,
+          rainFall: this.weatherData.rainFall,
+          rainyDays: this.weatherData.rainyDays,
+          cumulativeRain: this.weatherData.cumulativeRain
         });
       }
     });
   }
 
-  // Getter methods for easy access to form controls in the template
-  get title1() { return this.form1.get('title'); }
-  get description1() { return this.form1.get('description'); }
-
-  onSubmitSlide1() {
-    if (this.form1.valid) {
-      this.http.put(`${this.apiUrl}page/:impact-insights`, this.form1.value).subscribe(res => {
-        if (res) {
-          alert('Content updated successfully');
-          this.form1.patchValue({
-            title: res.title,
-            title2: res.title2,
-            description: res.description
-          });
-          this.getSlide1();
-        }
+  onSubmit() {
+    if (this.form.valid) {
+      this.http.post(`${this.apiUrl}weather`, this.form.value).subscribe(res => {
+        alert('Data submitted successfully');
       });
-    } else {
-      console.log('Form not valid');
     }
   }
-
 }
